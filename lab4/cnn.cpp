@@ -20,7 +20,7 @@ typedef hls::vector<float, 16>
 typedef hls::vector<float, 8>
     float8; // A vector of 8 float elements  (256 bits)
 typedef hls::vector<float, 4>
-    float4; // A vector of 4 float elements  (128 bits)
+    float4; // A vector of 4 float elements  (128 bits) 
 typedef hls::vector<float, 2>
     float2; // A vector of 2 float elements   (64 bits)
 typedef hls::vector<float, 1>
@@ -318,8 +318,11 @@ void cnn(float input[1][228][228], float output[16][224][224],
         for (int h = 0; h < 16 * 14;
              h++) { // Note: 16*14 equals 224 (the height dimension)
           for (int w = 0; w < 224; w++) {
+            #pragma HLS pipeline II=1
             for (int p = 0; p < 5; p++) {
+              #pragma HLS unroll factor=5
               for (int q = 0; q < 5; q++) {
+                #pragma HLS unroll factor=5
 
                 /**
                  * Compute the effective output channel index.
